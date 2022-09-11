@@ -1,10 +1,19 @@
-import './App.css';
+import "./App.css";
+import Navbar from "./components/Navbar";
+import Container from "./components/Container";
+import InsertForm from "./components/InsertForm";
+import BooksContainer from "./components/Book/BooksContainer";
 
 function App() {
   return (
-    <div className="App">
-      
-    </div>
+    <>
+      <Navbar />
+
+      <Container>
+        <InsertForm />
+        <BooksContainer />
+      </Container>
+    </>
   );
 }
 
