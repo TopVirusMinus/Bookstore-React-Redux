@@ -22,7 +22,16 @@ const BooksList = ({ isLoading, books, isLoggedIn, deleteBook, dispatch }) => {
                   type="button"
                   className="btn btn-danger"
                   disabled={!isLoggedIn}
-                  onClick={(_) => dispatch(deleteBook(b.id))}
+                  onClick={(_) =>
+                    dispatch(deleteBook(b))
+                      .unwrap()
+                      .then((promiseResult) => {
+                        console.log(promiseResult);
+                      })
+                      .catch((rejected) => {
+                        console.log(rejected);
+                      })
+                  }
                 >
                   Delete
                 </button>
