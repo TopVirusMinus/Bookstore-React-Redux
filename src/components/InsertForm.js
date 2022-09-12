@@ -46,8 +46,10 @@ const InsertForm = () => {
           <div class="form-group">
             <label for="exampleInputPassword1">Price</label>
             <input
+              min="0"
+              step="1"
               ref={price}
-              type="text"
+              type="number"
               class="form-control"
               id="exampleInputPassword1"
             />

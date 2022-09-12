@@ -18,8 +18,9 @@ export const getBooks = createAsyncThunk(
 export const insertBook = createAsyncThunk(
   "books/insertBook",
   async (bookInfo, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue, getState } = thunkAPI;
     try {
+      bookInfo.username = getState().authSlice.name;
       const res = await fetch("http://localhost:3005/books", {
         method: "POST",
         body: JSON.stringify(bookInfo),
@@ -35,12 +36,28 @@ export const insertBook = createAsyncThunk(
   }
 );
 
+export const deleteBook = createAsyncThunk(
+  "books/deleteBook",
+  async (id, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+    try {
+      await fetch(`http://localhost:3005/books/${id}`, {
+        method: "DELETE",
+      });
+      return id;
+    } catch (error) {
+      rejectWithValue(error.message);
+    }
+  }
+);
+
 const initialState = { books: [], isLoading: false, error: false };
 const bookSlice = createSlice({
   name: "book",
   initialState,
   reducers: {},
   extraReducers: {
+    //Get Book
     [getBooks.pending]: (state, action) => {
       state.isLoading = true;
       state.error = null;
@@ -54,6 +71,7 @@ const bookSlice = createSlice({
       state.error = true;
     },
 
+    //insert Book
     [insertBook.pending]: (state, action) => {
       state.isLoading = true;
       state.error = null;
@@ -65,6 +83,19 @@ const bookSlice = createSlice({
     },
     [insertBook.rejected]: (state, action) => {
       state.isLoading = false;
+      state.error = true;
+    },
+
+    //Delete Book
+    [deleteBook.pending]: (state, action) => {
+      state.isLoading = true;
+      state.error = null;
+    },
+    [deleteBook.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.books = state.books.filter((b) => action.payload !== b.id);
+    },
+    [deleteBook.rejected]: (state, action) => {
       state.error = true;
     },
   },

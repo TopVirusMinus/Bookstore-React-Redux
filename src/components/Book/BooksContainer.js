@@ -3,6 +3,7 @@ import BookDetails from "./BookDetails";
 import BookList from "./BookList";
 import { useDispatch, useSelector } from "react-redux";
 import { getBooks } from "../../store/bookSlice";
+import { deleteBook } from "../../store/bookSlice";
 import "./book.css";
 
 const BooksContainer = () => {
@@ -20,6 +21,8 @@ const BooksContainer = () => {
       <div className="row">
         <div className="col">
           <BookList
+            dispatch={dispatch}
+            deleteBook={deleteBook}
             isLoading={isLoading}
             books={books}
             isLoggedIn={isLoggedIn}

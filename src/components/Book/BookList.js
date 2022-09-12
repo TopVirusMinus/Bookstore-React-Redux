@@ -1,5 +1,5 @@
 import React from "react";
-const BooksList = ({ isLoading, books, isLoggedIn }) => {
+const BooksList = ({ isLoading, books, isLoggedIn, deleteBook, dispatch }) => {
   const bookList =
     books.length === 0
       ? "There are no books"
@@ -22,6 +22,7 @@ const BooksList = ({ isLoading, books, isLoggedIn }) => {
                   type="button"
                   className="btn btn-danger"
                   disabled={!isLoggedIn}
+                  onClick={(_) => dispatch(deleteBook(b.id))}
                 >
                   Delete
                 </button>
