@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import BookDetails from "./BookDetails";
 import BookList from "./BookList";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,10 +10,15 @@ const BooksContainer = () => {
   const dispatch = useDispatch();
   const { isLoading, books } = useSelector((state) => state.bookSlice);
   const { isLoggedIn } = useSelector((state) => state.authSlice);
+  const [currReadBook, setCurrReadBook] = useState({});
 
   useEffect(() => {
     dispatch(getBooks());
   }, [dispatch]);
+
+  const readBook = (book) => {
+    setCurrReadBook((prev) => book);
+  };
 
   return (
     <>
@@ -21,6 +26,7 @@ const BooksContainer = () => {
       <div className="row">
         <div className="col">
           <BookList
+            readBook={readBook}
             dispatch={dispatch}
             deleteBook={deleteBook}
             isLoading={isLoading}
@@ -29,7 +35,7 @@ const BooksContainer = () => {
           />
         </div>
         <div className="col side-line">
-          <BookDetails isLoggedIn={isLoggedIn} />
+          <BookDetails isLoggedIn={isLoggedIn} currBook={currReadBook} />
         </div>
       </div>
     </>

@@ -1,5 +1,12 @@
 import React from "react";
-const BooksList = ({ isLoading, books, isLoggedIn, deleteBook, dispatch }) => {
+const BooksList = ({
+  isLoading,
+  books,
+  isLoggedIn,
+  deleteBook,
+  readBook,
+  dispatch,
+}) => {
   const bookList =
     books.length === 0
       ? "There are no books"
@@ -12,6 +19,7 @@ const BooksList = ({ isLoading, books, isLoggedIn, deleteBook, dispatch }) => {
               <div>{b.title}</div>
               <div className="btn-group" role="group">
                 <button
+                  onClick={() => readBook(b)}
                   type="button"
                   className="btn btn-primary"
                   disabled={!isLoggedIn}
