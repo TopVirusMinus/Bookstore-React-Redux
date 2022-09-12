@@ -1,8 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
+import { toggleLogin } from "../store/authSlice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const { error } = useSelector((state) => state.bookSlice);
+  const { isLoggedIn } = useSelector((state) => state.authSlice);
 
   return (
     <>
@@ -10,9 +12,13 @@ const Navbar = () => {
         <a href="#" class="navbar-brand">
           My Books
         </a>
-        <form class="form-inline">
-          <button class="btn btn-outline-primary my-2 my-sm-0">Login</button>
-        </form>
+        <button
+          type="submit"
+          class="btn btn-outline-primary my-2 my-sm-0"
+          onClick={() => dispatch(toggleLogin())}
+        >
+          {isLoggedIn ? "Log Out" : "Login"}
+        </button>
       </nav>
 
       {error && (
